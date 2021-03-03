@@ -1,0 +1,10 @@
+{
+    "name": "liborcinka/date-picker",
+    "description": "Custom DatePicker.",
+    "version": "1.0",
+    "autoload": {
+        "psr-4": {
+            "LiborCinka\\": "."
+        }
+    }
+}
