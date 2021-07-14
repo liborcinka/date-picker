@@ -4,7 +4,7 @@
  * Addons and code snippets for Nette Framework. (unofficial)
  */
 
-namespace LiborCinka\Components;
+namespace LiborCinka;
 
 use Nette;
 use Nette\Forms;
