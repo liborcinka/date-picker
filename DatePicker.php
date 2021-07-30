@@ -27,7 +27,7 @@ class DatePicker extends Forms\Controls\BaseControl
 	protected $value;
 
 	/** value entered by user (unfiltered) */
-	protected string $rawValue;
+	protected ?string $rawValue;
 
 	private string $className = 'date';
 
