@@ -89,7 +89,7 @@ class DatePicker extends Forms\Controls\BaseControl
 	 */
 	public function setValue($value): self
 	{
-		if ($value instanceof DateTime) {
+		if ($value instanceof DateTime || $value instanceof \DateTime) {
 		} elseif (is_int($value)) { // timestamp
 		} elseif (empty($value)) {
 			$rawValue = $value;
