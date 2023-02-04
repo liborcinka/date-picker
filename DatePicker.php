@@ -8,6 +8,11 @@ namespace LiborCinka;
 
 use Nette;
 use Nette\Forms;
+use Nette\Forms\Control;
+use Nette\Forms\Controls\BaseControl;
+use Nette\Forms\Rule;
+use Nette\Forms\Rules;
+use Nette\Forms\Validator;
 use Nette\Utils\DateTime;
 
 /**
@@ -17,13 +22,16 @@ use Nette\Utils\DateTime;
  *  – works with DateTime
  *
  */
-class DatePicker extends Forms\Controls\BaseControl
+class DatePicker extends BaseControl
 {
 
-	/** @link    http://dev.w3.org/html5/spec/common-microsyntaxes.html#valid-date-string */
+	/** @link http://dev.w3.org/html5/spec/common-microsyntaxes.html#valid-date-string */
 	const W3C_DATE_FORMAT = 'j. n. Y';
 
-	/** @var     DateTime|NULL     internal date reprezentation */
+	/** 
+	 * @var DateTime|NULL 
+	 * internal date reprezentation
+	 */
 	protected $value;
 
 	/** value entered by user (unfiltered) */
@@ -68,16 +76,16 @@ class DatePicker extends Forms\Controls\BaseControl
 			$control->attrs['class'] = $this->className;
 		}
 
-		list($min, $max) = $this->extractRangeRule($this->getRules());
-		if ($min !== null) {
-			$control->min = $min->format(self::W3C_DATE_FORMAT);
-		}
-		if ($max !== null) {
-			$control->max = $max->format(self::W3C_DATE_FORMAT);
-		}
-		if ($this->value) {
-			$control->value = $this->value->format(self::W3C_DATE_FORMAT);
-		}
+		// list($min, $max) = $this->extractRangeRule($this->getRules());
+		// if ($min !== null) {
+		// 	$control->min = $min->format(self::W3C_DATE_FORMAT);
+		// }
+		// if ($max !== null) {
+		// 	$control->max = $max->format(self::W3C_DATE_FORMAT);
+		// }
+		// if ($this->value) {
+		// 	$control->value = $this->value->format(self::W3C_DATE_FORMAT);
+		// }
 		return $control;
 	}
 
@@ -146,7 +154,7 @@ class DatePicker extends Forms\Controls\BaseControl
 	 *
 	 * @param DatePicker $control
 	 */
-	public static function validateFilled(Forms\IControl $control): bool
+	public static function validateFilled(Control $control): bool
 	{
 		if (!$control instanceof self) {
 			throw new Nette\InvalidStateException('Unable to validate ' . get_class($control) . ' instance.');
@@ -161,7 +169,7 @@ class DatePicker extends Forms\Controls\BaseControl
 	 *
 	 * @param DatePicker $control
 	 */
-	public static function validateValid(Forms\IControl $control): bool
+	public static function validateValid(Control $control): bool
 	{
 		if (!$control instanceof self) {
 			throw new Nette\InvalidStateException('Unable to validate ' . get_class($control) . ' instance.');
@@ -175,7 +183,7 @@ class DatePicker extends Forms\Controls\BaseControl
 	 *
 	 * @param DatePicker $control
 	 */
-	public static function validateRegexp(Forms\IControl $control): bool
+	public static function validateRegexp(Control $control): bool
 	{
 		if (!$control instanceof self) {
 			throw new Nette\InvalidStateException('Unable to validate ' . get_class($control) . ' instance.');
@@ -190,7 +198,7 @@ class DatePicker extends Forms\Controls\BaseControl
 	 * @param DatePicker $control
 	 * @param array $range 0 => minDate, 1 => maxDate
 	 */
-	public static function validateRange(Forms\IControl $control, array $range): bool
+	public static function validateRange(Control $control, array $range): bool
 	{
 		return Nette\Utils\Validators::isInRange($control->getValue(), $range);
 	}
@@ -199,33 +207,35 @@ class DatePicker extends Forms\Controls\BaseControl
 	/**
 	 * Finds minimum and maximum allowed dates.
 	 *
+	 * @deprecated
 	 * @return array $rules 0 => DateTime|null $minDate, 1 => DateTime|null $maxDate
 	 */
-	private function extractRangeRule(Forms\Rules $rules): array
+	private function extractRangeRule(Rules $rules): array
 	{
-		$controlMin = $controlMax = null;
-		foreach ($rules as $rule) {
-			if ($rule->type === Forms\Rule::VALIDATOR) {
-				if ($rule->operation === Forms\Form::RANGE && !$rule->isNegative) {
-					$ruleMinMax = $rule->arg;
-				}
-			} elseif ($rule->type === Forms\Rule::CONDITION) {
-				if ($rule->operation === Forms\Form::FILLED && !$rule->isNegative && $rule->control === $this) {
-					$ruleMinMax = $this->extractRangeRule($rule->subRules);
-				}
-			}
+		// $controlMin = $controlMax = null;
+		// foreach ($rules as $rule) {
+		// 	if ($rule->type === Validator::class) {
+		// 		if ($rule->operation === Forms\Form::RANGE && !$rule->isNegative) {
+		// 			$ruleMinMax = $rule->arg;
+		// 		}
+		// 	} elseif ($rule->type === Forms\Rule::CONDITION) {
+		// 		if ($rule->operation === Forms\Form::FILLED && !$rule->isNegative && $rule->control === $this) {
+		// 			$ruleMinMax = $this->extractRangeRule($rule->subRules);
+		// 		}
+		// 	}
 
-			if (isset($ruleMinMax)) {
-				list($ruleMin, $ruleMax) = $ruleMinMax;
-				if ($ruleMin !== null && ($controlMin === null || $ruleMin > $controlMin)) {
-					$controlMin = $ruleMin;
-				}
-				if ($ruleMax !== null && ($controlMax === null || $ruleMax < $controlMax)) {
-					$controlMax = $ruleMax;
-				}
-				$ruleMinMax = null;
-			}
-		}
-		return array($controlMin, $controlMax);
+		// 	if (isset($ruleMinMax)) {
+		// 		list($ruleMin, $ruleMax) = $ruleMinMax;
+		// 		if ($ruleMin !== null && ($controlMin === null || $ruleMin > $controlMin)) {
+		// 			$controlMin = $ruleMin;
+		// 		}
+		// 		if ($ruleMax !== null && ($controlMax === null || $ruleMax < $controlMax)) {
+		// 			$controlMax = $ruleMax;
+		// 		}
+		// 		$ruleMinMax = null;
+		// 	}
+		// }
+		// return array($controlMin, $controlMax);
+		return [];
 	}
 }
