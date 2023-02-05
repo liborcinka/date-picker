@@ -7,13 +7,11 @@
 namespace LiborCinka;
 
 use Nette;
-use Nette\Forms;
 use Nette\Forms\Control;
 use Nette\Forms\Controls\BaseControl;
-use Nette\Forms\Rule;
 use Nette\Forms\Rules;
-use Nette\Forms\Validator;
 use Nette\Utils\DateTime;
+use Nette\Utils\Validators;
 
 /**
  * Form control for selecting date.
@@ -83,12 +81,16 @@ class DatePicker extends BaseControl
 		// if ($max !== null) {
 		// 	$control->max = $max->format(self::W3C_DATE_FORMAT);
 		// }
-		// if ($this->value) {
-		// 	$control->value = $this->value->format(self::W3C_DATE_FORMAT);
-		// }
+		if ($this->value) {
+			$control->value = $this->value->format(self::W3C_DATE_FORMAT);
+		}
 		return $control;
 	}
 
+	public function setDefaultValue($value): self
+	{
+		return $this->setValue($value);
+	}
 
 	/**
 	 * Sets DatePicker value.
@@ -200,7 +202,7 @@ class DatePicker extends BaseControl
 	 */
 	public static function validateRange(Control $control, array $range): bool
 	{
-		return Nette\Utils\Validators::isInRange($control->getValue(), $range);
+		return Validators::isInRange($control->getValue(), $range);
 	}
 
 
